@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using applicaiton.DTOs;
+using Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -9,7 +10,7 @@ public class ChatController : ControllerBase
 {
    
     [HttpPost]
-    public IActionResult SendMessage([FromBody] ChatRequestDto request)
+    public IActionResult SendMessage([FromBody] ChatRequestDTO request)
     {
       
         var response = new ChatResponseDto

@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs;
 
-public class ChatRequestDto
+public record ChatRequestDTO
 {
-    public string Message { get; set; }
+    public string message { get; init; }
 }
