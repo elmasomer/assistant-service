@@ -1,6 +1,3 @@
 ﻿namespace Application.DTOs;
 
-public record ChatRequestDTO
-{
-    public string message { get; init; }
-}
+public record ChatRequestDto(string message);

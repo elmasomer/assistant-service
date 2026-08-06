@@ -1,6 +1,3 @@
-﻿namespace applicaiton.DTOs;
-public record ChatResponseDto
-{
-    public string Reply { get; init; }
-    public DateTime Timestamp { get; init; } = DateTime.UtcNow;
-}
+﻿namespace Application.DTOs;
+
+public record ChatResponseDto(string Reply, DateTime Timestamp);
