@@ -1,22 +1,33 @@
+using Application.Interfaces;
+using Infrastructure.Services;
+using Microsoft.SemanticKernel;
+
 var builder = WebApplication.CreateBuilder(args);
-
-
 builder.Services.AddControllers();
 
-// Swagger kurulum kodları
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddKernel()
+    .AddGoogleAIGeminiChatCompletion(
+        modelId: "gemini-3.6-flash",
+       apiKey: builder.Configuration["GeminiApiKey"]
+    );
+builder.Services.AddScoped<IMafChatService, MafChatService>();
+
 var app = builder.Build();
 
-// Swagger arayüzünü tarayıcıda göstermek için gerekli izinler
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Controller adreslerini (bizim api/v1/chat) aktif eder
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

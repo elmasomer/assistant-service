@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.SemanticKernel" Version="1.79.0" />
+	  <PackageReference Include="Microsoft.SemanticKernel.Connectors.Google" Version="1.79.0-alpha" />
+	  <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.79.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Application\Application.csproj" />
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
