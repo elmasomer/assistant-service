@@ -1,22 +1,26 @@
+using Application.Interfaces;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
-
-// Swagger kurulum kodları
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddScoped<IMafChatService, MafChatService>();
 
-// Swagger arayüzünü tarayıcıda göstermek için gerekli izinler
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Controller adreslerini (bizim api/v1/chat) aktif eder
+app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
