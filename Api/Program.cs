@@ -1,5 +1,5 @@
 using Application.Interfaces;
-using Infrastructure.Contexts;
+using Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
