@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System;
-using Application.Interfaces;
-using Application.DTOs;
+﻿using Application.DTOs;
+using Application.Features.Chat.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -10,30 +9,26 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class ChatController : ControllerBase
     {
-        private readonly IMafChatService _chatService;
+        private readonly IMediator _mediator;
 
-        public ChatController(IMafChatService chatService)
+        public ChatController(IMediator mediator)
         {
-            _chatService = chatService;
+            _mediator = mediator;
         }
 
         [HttpPost("ask")]
-        public async Task<IActionResult> Ask([FromBody] ChatRequestDto request)
+        public async Task<IActionResult> Ask([FromBody] ChatRequestDto request, CancellationToken cancellationToken)
         {
-            if (request == null || string.IsNullOrWhiteSpace(request.message))
-            {
-                return BadRequest(new { Error = "Soru alanı boş olamaz." });
-            }
-
             try
             {
-                var rawAnswer = await _chatService.GetChatResponseAsync(request.message);
-                var responseDto = new ChatResponseDto(
-                    Reply: rawAnswer,
-                    Timestamp: DateTime.UtcNow
-                );
+                var command = new AskChatCommand(request.Message, request.SessionId);
+                var responseDto = await _mediator.Send(command, cancellationToken);
 
                 return Ok(responseDto);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { Error = ex.Message });
             }
             catch (Exception ex)
             {
